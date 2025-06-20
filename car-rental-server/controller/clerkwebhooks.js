@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import User from "../model/userSchema.js";
-import { Message } from "svix/dist/api/message.js";
+
 
 
 const clerkwebhook = async (req, res) =>{
@@ -20,9 +20,9 @@ const clerkwebhook = async (req, res) =>{
         const {data, type} = req.body
         const userData = {
             _id:data.id,
-            email :data.email_address[0].email_address,
+            email :data.email_addresses[0].email_address,
             username:data.first_name + " " +data.last_name,
-            Image:data.image_rul,
+            Image:data.image_url,
         }
 
         // switch cases for different events
@@ -32,11 +32,11 @@ const clerkwebhook = async (req, res) =>{
                 break;
             }
             case "user.updated":{
-                await User.findByAndUpdate(data.id, userData)
+                await User.findByIdAndUpdate(data.id, userData)
                 break;
             }
             case "user.deleted":{
-                await User.findByAndDelete(data.id)
+               await User.findByIdAndDelete(data.id)
                 break;
             }
 
@@ -45,8 +45,8 @@ const clerkwebhook = async (req, res) =>{
         }
         res.json({success:true ,messge:"webhook recieved"})
     } catch (error) {
-        console.log(error.messge);
-         res.json({ success:false , Message: error.messge})
+       console.log(error.message);
+res.status(500).json({ success: false, message: error.message });
     }
 }
 

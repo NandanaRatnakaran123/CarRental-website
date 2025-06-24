@@ -1,14 +1,21 @@
 import mongoose from 'mongoose';
 
-const connectDB = async () =>{
-    try {
-        mongoose.connection.on('connected',() => console.log('Database connected')
-        );
-        await mongoose.connect(`${process.env.connection_string}/car-rental`)
-    } catch (error) {
-        console.log(error.message);
-        
+const connectDB = async () => {
+  try {
+    if (mongoose.connection.readyState >= 1) {
+      return;
     }
-}
 
-export default connectDB
+    await mongoose.connect(process.env.connection_string, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log(" MongoDB Connected");
+  } catch (err) {
+    console.error(" MongoDB Connection Error:", err.message);
+    process.exit(1);
+  }
+};
+
+export default connectDB;

@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import User from "../model/userSchema.js";
 
 const clerkwebhook = async (req, res) => {
+    console.log("Webhook received");
     try {
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
@@ -18,12 +19,13 @@ const clerkwebhook = async (req, res) => {
             _id: data.id,
             email: data.email_addresses[0].email_address,
             username: data.first_name + " " + data.last_name,
-            Image: data.image_url,
+            image: data.image_url,
         };
 
         switch (type) {
             case "user.created":
                 await User.create(userData);
+                console.log("User created:", userData);
                 break;
             case "user.updated":
                 await User.findByIdAndUpdate(data.id, userData);

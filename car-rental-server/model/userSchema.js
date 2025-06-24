@@ -23,8 +23,8 @@ const userSchema = mongoose.Schema({
         default: 'user'
     },
     recentSearchCities: [{
-        type: String,
-        required: true
+        type: [String],
+  default: []
     }]
 });
 

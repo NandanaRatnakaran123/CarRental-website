@@ -15,10 +15,9 @@ app.use(cors())
 // Apply middleware *before* JSON parsing// api to listen webhook
 app.post('/api/clerk', bodyParser.raw({ type: 'application/json' }), clerkwebhook);
 
-// middlewares
+//middlewares
 app.use(express.json())
 app.use(clerkMiddleware())
-
 
 
 const PORT=3000;

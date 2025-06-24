@@ -4,7 +4,7 @@ const connectDB = async () =>{
     try {
         mongoose.connection.on('connected',() => console.log('Database connected')
         );
-        await mongoose.connect(`${process.env.connection_string}/car-renatl`)
+        await mongoose.connect(`${process.env.connection_string}/car-rental`)
     } catch (error) {
         console.log(error.message);
         

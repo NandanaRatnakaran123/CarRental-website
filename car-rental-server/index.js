@@ -12,10 +12,6 @@ const app=express()
 app.use(cors())
 
 
-// Apply middleware *before* JSON parsing// api to listen webhook
-// app.post('/api/clerk', bodyParser.raw({ type: '*/*' }), clerkwebhook);
-
-
 // middlewares
 
 app.use(clerkMiddleware())
